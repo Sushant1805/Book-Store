@@ -1,8 +1,9 @@
 import React, { useEffect, useState } from 'react'
-import { useParams } from 'react-router-dom'
+import { useNavigate, useParams } from 'react-router-dom'
 import axios from 'axios'
 
 const EditBook = () => {
+  const navigate = useNavigate();
   const [title, settitle] = useState('')
   const [author, setauthor] = useState('')
   const [publishedYear, setpublishedYear] = useState('')
@@ -15,7 +16,7 @@ const EditBook = () => {
         if(title != '' && author != '' && publishedYear != ''){
           axios
           .put(
-            `http://localhost:5555/books/${id}`,{
+            `https://csufynr8ol.execute-api.us-east-1.amazonaws.com/DEV/books/${id}`,{
               "title" : title,
               "author" : author,
               "publishedYear" : publishedYear,
@@ -28,6 +29,7 @@ const EditBook = () => {
             setauthor('');
             settitle('');
             setpublishedYear('');
+            navigate('/');
           })
         }else{
           console.log("Enter")

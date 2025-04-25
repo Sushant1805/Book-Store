@@ -15,7 +15,7 @@ const CreateBook = () => {
         if(title != '' && author != '' && publishedYear != ''){
           axios
           .post(
-            'http://localhost:5555/books',{
+            'https://csufynr8ol.execute-api.us-east-1.amazonaws.com/DEV/books',{
               "title" : title,
               "author" : author,
               "publishedYear" : publishedYear,

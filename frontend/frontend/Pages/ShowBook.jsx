@@ -4,12 +4,12 @@ import { useParams } from 'react-router-dom';
 const ShowBook = () => {
   const [book, setbook] = useState([])
   const {id} = useParams();
-  console.log(id)
+
 
   useEffect(() => {
     const fetchBooks = async () => {
       try {
-        const response = await axios.get(`http://localhost:5555/books/${id}`);
+        const response = await axios.get(`https://csufynr8ol.execute-api.us-east-1.amazonaws.com/DEV/books/${id}`);
         setbook(response.data);
       } catch (error) {
         console.error('Error fetching books:', error);

@@ -13,10 +13,9 @@ const Home = () => {
   useEffect(() => {
     setloading(true);
     axios
-      .get("http://localhost:5555/books")
+      .get("https://csufynr8ol.execute-api.us-east-1.amazonaws.com/DEV/books")
       .then((response) => {
-        
-        setbooks(response.data.data);
+        setbooks(response.data.books);
         setloading(false);
       })
       .catch((error) => {
@@ -53,9 +52,10 @@ const Home = () => {
           </thead>
           <tbody>
             {books.map((book, index) => {
-       
+      
+
               return <>  
-                <tr key={book.id} className="h-8">
+                <tr key={book["Book-Id"]} className="h-8">
                 <td className="border border-slate-700 rounded-md text-center">
                   {index + 1}
                 </td>
@@ -70,15 +70,15 @@ const Home = () => {
                 </td>
                 <td className="border border-slate-700 rounded-md text-center *:">
                   <div className="flex justify-center gap-x-4">
-                    <Link to={`/books/details/${book._id}`}>
+                    <Link to={`/books/details/${book["Book-id"]}`}>
                       <BsInfoCircle className="text-2xl text-green-800" />
                     </Link>
 
-                    <Link to={`/books/update/${book._id}`}>
+                    <Link to={`/books/update/${book["Book-id"]}`}>
                       <AiOutlineEdit className="text-2xl text-yellow-600" />
                     </Link>
 
-                    <Link to={`/books/delete/${book._id}`}>
+                    <Link to={`/books/delete/${book["Book-id"]}`}>
                       <MdOutlineDelete className="text-2xl text-green-800" />
                     </Link>
                   </div>

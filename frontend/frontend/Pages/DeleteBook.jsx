@@ -14,7 +14,7 @@ const DeleteBook = () => {
 
     function deleteHandler(){
         axios
-        .delete(`http://localhost:5555/books/${id}`)
+        .delete(`https://csufynr8ol.execute-api.us-east-1.amazonaws.com/DEV/books/${id}`)
         .then(()=>{
             console.log("Book Deleted Successfully!")
             navigate('/');
