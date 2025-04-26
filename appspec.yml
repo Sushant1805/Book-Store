@@ -1,22 +1,32 @@
 version: 0.0
 os: linux
 files:
-  - source: / # Copy all build artifacts from S3 root
-    destination: /var/www/mern-todo-app # Destination on the EC2 instance
+  - source: /  # All files from the S3 artifact root (which is backend + public folder inside it)
+    destination: /var/www/book-store-app
+
 hooks:
   BeforeInstall:
     - location: scripts/before_install.sh
       timeout: 300
-      runas: root # Or ec2-user if permissions allow
+      runas: root
+
   ApplicationStop:
     - location: scripts/app_stop.sh
       timeout: 60
       runas: root
+
+  AfterInstall:
+    - location: scripts/after_install.sh
+      timeout: 120
+      runas: root
+
   ApplicationStart:
     - location: scripts/app_start.sh
       timeout: 120
       runas: root
-  # ValidateService: # Optional: check if the service is running correctly
+
+  # Optionally validate if needed
+  # ValidateService:
   #   - location: scripts/validate_service.sh
   #     timeout: 60
   #     runas: root
