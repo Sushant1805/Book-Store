@@ -12,19 +12,18 @@ phases:
       - npm install
 
   build:
-  commands:
+    commands:
       - echo Building React frontend...
       - npm run build
       - echo Copying frontend dist to backend public directory...
-      - mkdir -p ../backend/public
-      - cp -r dist/* ../backend/public/
-
+      - mkdir -p ../../backend/public
+      - cp -r dist/* ../../backend/public/
 
   post_build:
     commands:
       - echo Build completed on `date`
       - echo Preparing artifacts...
-      - cd ../backend
+      - cd ../../backend
       - cp ../appspec.yml . # Make sure appspec.yml is in the root directory
       - cp -r ../scripts . # Copy the entire scripts directory
 
