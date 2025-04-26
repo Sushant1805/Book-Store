@@ -12,13 +12,13 @@ phases:
       - npm install
 
   build:
-    commands:
+  commands:
       - echo Building React frontend...
-      - cd frontend
       - npm run build
-      - echo Copying frontend build to backend public directory...
+      - echo Copying frontend dist to backend public directory...
       - mkdir -p ../backend/public
       - cp -r dist/* ../backend/public/
+
 
   post_build:
     commands:
