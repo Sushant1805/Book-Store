@@ -3,38 +3,32 @@ version: 0.2
 phases:
   install:
     runtime-versions:
-      nodejs: 22 # Match the LTS version installed on EC2
+      nodejs: 22
     commands:
       - echo Installing dependencies...
-      # Install backend dependencies
-      - cd backend # Assuming your backend is in a 'backend' folder
+      - cd backend
       - npm install
-      # Install frontend dependencies
-      - cd ../frontend # Assuming your frontend is in a 'frontend' folder
+      - cd ../frontend
       - npm install
 
   build:
     commands:
       - echo Building React frontend...
       - cd frontend
-      - npm run build # Assumes 'build' script in frontend/package.json
+      - npm run build
       - echo Copying frontend build to backend public directory...
       - mkdir -p ../backend/public
-      # Copy files from dist/ folder to backend/public directory
       - cp -r dist/* ../backend/public/
 
   post_build:
     commands:
       - echo Build completed on `date`
       - echo Preparing artifacts...
-      # Navigate to the backend directory for final deployment
       - cd ../backend
-      # Copy necessary deployment files into the root of the artifact
-      - cp ../appspec.yml . # Ensure appspec.yml is in the root of your repo
+      - cp ../appspec.yml . # Make sure appspec.yml is in the root directory
       - cp -r ../scripts . # Copy the entire scripts directory
 
 artifacts:
   files:
-    # Include everything needed on the server
-    - '**/*' # Include all files from the backend directory (including node_modules, public, scripts, appspec.yml)
-  base-directory: backend # The root for the artifact zip will be the backend folder
+    - '**/*'
+  base-directory: backend
