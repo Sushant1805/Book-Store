@@ -17,11 +17,9 @@ EOF
 # Install PM2 if not available
 command -v pm2 &> /dev/null || npm install -g pm2
 
-# Start app using PM2
-pm2 start "$APP_DIR/index.js" --name "book-store-app" --env production
-
-# Configure PM2 to start on system boot
-pm2 startup systemd --user ec2-user | bash || true
+# Forcefully restart the app using PM2 (if already running)
+pm2 start "$APP_DIR/index.js" --name "book-store-app" --env production -f
+pm2 startup | bash || true
 pm2 save || true
 
 echo "Application started successfully."
