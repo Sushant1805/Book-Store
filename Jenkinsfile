@@ -43,24 +43,21 @@ pipeline {
         }
 
         stage('Build Docker Image') {
-            steps {
-                echo "Building Docker image..."
-                script {
-                    sh "docker build -t ${DOCKER_HUB_REPO}:latest ."
-                }
-            }
+            echo "Building Docker image..."
+            bat """
+                docker build -t ${DOCKER_USER}/bookstore-app .
+            """
         }
 
-        stage('Push to Docker Hub') {
-            steps {
-                echo "Pushing Docker image to Docker Hub..."
-                withCredentials([usernamePassword(credentialsId: 'dockerhub-creds',
-                        usernameVariable: 'DOCKER_USER', passwordVariable: 'DOCKER_PASS')]) {
-                    sh "echo $DOCKER_PASS | docker login -u $DOCKER_USER --password-stdin"
-                    sh "docker push ${DOCKER_HUB_REPO}:latest"
-                }
-            }
+
+      stage('Push to Docker Hub') {
+            echo "Pushing image to Docker Hub..."
+            bat """
+                docker login -u %DOCKER_USER% -p %DOCKER_PASS%
+                docker push ${DOCKER_USER}/bookstore-app
+            """
         }
+
 
         stage('Deploy to AWS EC2') {
             steps {
