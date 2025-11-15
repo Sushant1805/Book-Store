@@ -9,11 +9,12 @@ pipeline {
  
     stages { 
  
-        stage('Checkout') { 
-            steps { 
-                git 'https://github.com/Sushant1805/Book-Store.git' 
-            } 
-        } 
+        stage('Checkout') {
+            steps {
+                git branch: 'main', url: 'https://github.com/Sushant1805/Book-Store.git'
+            }
+        }
+
  
         stage('Build') { 
             steps { 
