@@ -36,7 +36,7 @@ pipeline {
         stage('Build Frontend') {
             steps {
                 echo "Building React frontend..."
-                dir('frontend') {
+                dir('frontend/frontend') {
                     bat 'npm run build'
                 }
             }
