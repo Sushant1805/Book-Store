@@ -2,8 +2,8 @@ pipeline {
     agent any 
  
     environment { 
-        DOCKER_HUB_REPO = 'your_dockerhub_username/your_app' 
-        AWS_HOST = 'ec2-user@<YOUR_EC2_PUBLIC_IP>' 
+        DOCKER_HUB_REPO = 'sushant1805/cnd-repo' 
+        AWS_HOST = 'ec2-user@13.211.240.134' 
         AWS_KEY = credentials('aws-key') // SSH key added in Jenkins 
     } 
  
@@ -11,7 +11,7 @@ pipeline {
  
         stage('Checkout') { 
             steps { 
-                git 'https://github.com/your-username/your-repo.git' 
+                git 'https://github.com/Sushant1805/Book-Store.git' 
             } 
         } 
  
