@@ -27,7 +27,7 @@ pipeline {
         stage('Install Frontend Dependencies') {
             steps {
                 echo "Installing frontend dependencies..."
-                dir('frontend') {
+                dir('frontend/frontend') {
                     bat 'npm install'
                 }
             }
