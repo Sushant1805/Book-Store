@@ -17,7 +17,6 @@ pipeline {
 
         stage('Install Backend Dependencies') {
             steps {
-                echo "Installing backend dependencies..."
                 dir('backend') {
                     bat 'npm install'
                 }
@@ -26,7 +25,6 @@ pipeline {
 
         stage('Install Frontend Dependencies') {
             steps {
-                echo "Installing frontend dependencies..."
                 dir('frontend/frontend') {
                     bat 'npm install'
                 }
@@ -35,24 +33,22 @@ pipeline {
 
         stage('Build Frontend') {
             steps {
-                echo "Building React frontend..."
                 dir('frontend/frontend') {
                     bat 'npm run build'
                 }
             }
         }
+
         stage('Build Docker Image') {
             steps {
-                echo "Building Docker image..."
                 bat """
                     docker build -t %DOCKER_HUB_REPO%:latest .
                 """
             }
         }
-        
+
         stage('Push to Docker Hub') {
             steps {
-                echo "Pushing Docker image..."
                 withCredentials([usernamePassword(
                     credentialsId: 'dockerhub-creds',
                     usernameVariable: 'DOCKER_USER',
@@ -66,17 +62,14 @@ pipeline {
             }
         }
 
-
-
         stage('Deploy to AWS EC2') {
             steps {
-                echo "Deploying container to EC2..."
                 sh """
                 ssh -o StrictHostKeyChecking=no -i ${AWS_KEY} ${AWS_HOST} '
                     docker pull ${DOCKER_HUB_REPO}:latest &&
                     docker stop myapp || true &&
                     docker rm myapp || true &&
-                    docker run -d --name myapp -p 80:80 ${DOCKER_HUB_REPO}:latest
+                    docker run -d --name myapp -p 80:3000 ${DOCKER_HUB_REPO}:latest
                 '
                 """
             }
@@ -84,11 +77,7 @@ pipeline {
     }
 
     post {
-        success {
-            echo "✅ Deployment successful!"
-        }
-        failure {
-            echo "❌ Pipeline failed!"
-        }
+        success { echo "Deployment successful!" }
+        failure { echo "Pipeline failed!" }
     }
 }
